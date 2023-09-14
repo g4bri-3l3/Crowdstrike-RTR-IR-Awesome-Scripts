@@ -1,9 +1,15 @@
 # What
 
-A list of curated Powershell scripts to be used with Crowdstrike Falcon Real Time Response and/or Fusion Workflows (but you can use them with any EDR/SOAR/tool that permit you to deploy .ps1 scripts).
+A list of curated Powershell scripts to be used with Crowdstrike Falcon Real Time Response/Fusion Workflows/PSFalcon (but you can use them with any EDR/SOAR/tool that permit you to deploy .ps1 scripts).
 Some useful scripts to use in (not only) incident response.
 
-# How
+# Docs
+
+https://falcon.eu-1.crowdstrike.com/documentation/page/faa65a8c/falcon-fusion-playbooks
+https://www.crowdstrike.com/blog/how-to-defend-against-threats-with-falcon-fusion-and-falcon-real-time-response/
+
+
+# Scripts
 
 - [Stolen Device Wiper](https://github.com/g4bri-3l3/Crowdstrike-RTR-Awesome-Scripts/blob/main/scripts/stolen_device_wiper.ps1)
 Leveraging Bitlocker keys to immediately lock an endpoint (you will have in output the new key).
@@ -30,6 +36,7 @@ Export local browser history in a fancy way (Chrome and Edge supported).
 
 # Suggested Usage
 
+****With PSFalcon:****
 
 ***For a host***
 
@@ -37,9 +44,21 @@ Invoke-FalconRtr -Command runscript -Argument "-Cloudfile='the_script'" -Command
 
 ***For a group of hosts***
 
-**To get the group id**
+***To get the group id***
 
 $GroupName = 'Workstations'.ToLower()
 $Id = Get-FalconHostGroup -Filter "name:'$GroupName'"
 
 Invoke-FalconRtr -Command runscript -Argument "-Cloudfile='the_script'" -CommandLine="the_arguments" -Groupid 'the_group_id' -Timeout 600 -QueueOffline $true (set the timeout for the script and put in queue in case the host is currently offline)
+
+
+****With Fusion Workflows****
+
+Upload the script/s, mark them as available in Fusion:
+
+![image](https://github.com/g4bri-3l3/Crowdstrike-RTR-IR-Awesome-Scripts/assets/46595230/bb1f92d3-c6b1-43ac-bb52-94e159935983)
+
+And then leverage it in the Workflow:
+
+![image](https://github.com/g4bri-3l3/Crowdstrike-RTR-IR-Awesome-Scripts/assets/46595230/0a0dff6e-3e07-4d0a-9a60-ea12830c195a)
+
