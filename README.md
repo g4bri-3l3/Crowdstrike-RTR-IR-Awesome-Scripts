@@ -18,7 +18,7 @@ When a user is terminated, handle it by immediately removing the session on the 
 A simple script to create a local admin user on the host. Useful in case you have lost access to the endpoint.
 
 - [File Deleter](https://github.com/g4bri-3l3/Crowdstrike-RTR-IR-Awesome-Scripts/blob/main/scripts/file_deleter.ps1)
-Delete files based on various parameters. Can be useful when you are in a hurry in incident response or maybe handling an internal error (for instance a member of some finance staff wrongly sent a private document)  ;)
+Delete files based on various parameters. Can be useful when you are in a hurry in incident response or maybe handling an internal error (for instance a member of finance staff wrongly sent a private document)  ;)
 
 # Suggested Usage
 
