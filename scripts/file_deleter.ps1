@@ -4,25 +4,30 @@
 ###############################################################################################################
 ###############################################################################################################
 
-# Prompt the user for the number of search strings
-$numSearchStrings = Read-Host "Enter the number of search strings"
+param (
+    [int]$NumSearchStrings,
+    [string[]]$SearchStrings,
+    [string]$DirectoryPath
+)
 
-# Initialize an array to store search strings
-$searchStrings = @()
-
-# Prompt the user for search strings based on the specified number
-for ($i = 1; $i -le $numSearchStrings; $i++) {
-    $searchString = Read-Host "Enter search string $i"
-    $searchStrings += $searchString
+# If search strings are not provided as arguments, prompt the user
+if (-not $SearchStrings) {
+    $SearchStrings = @()
+    for ($i = 1; $i -le $NumSearchStrings; $i++) {
+        $searchString = Read-Host "Enter search string $i"
+        $SearchStrings += $searchString
+    }
 }
 
-# Prompt the user for the directory path
-$directoryPath = Read-Host "Enter the directory path"
+# If directory path is not provided as an argument, prompt the user
+if (-not $DirectoryPath) {
+    $DirectoryPath = Read-Host "Enter the directory path"
+}
 
 # Search for files matching the criteria
-$matchingFiles = Get-ChildItem -Path $directoryPath -File -Recurse | Where-Object {
+$matchingFiles = Get-ChildItem -Path $DirectoryPath -File -Recurse | Where-Object {
     $file = $_
-    $searchStrings | ForEach-Object { $file.Name -match $_ }
+    $SearchStrings | ForEach-Object { $file.Name -match $_ }
 }
 
 # Display the matching files
