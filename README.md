@@ -37,7 +37,7 @@ Invoke-FalconRtr -Command runscript -Argument "-Cloudfile='the_script'" -Command
 
 **Get the group id**
 
-$GroupName = 'SDB - Edge Workstations'.ToLower()
+$GroupName = 'Workstations'.ToLower()
 $Id = Get-FalconHostGroup -Filter "name:'$GroupName'"
 
 Invoke-FalconRtr -Command runscript -Argument "-Cloudfile='the_script'" -CommandLine="the_arguments" -Groupid 'the_group_id' -Timeout 600 -QueueOffline $true (set the timeout for the script and put in queue in case the host is currently offline)
