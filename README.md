@@ -1,7 +1,6 @@
 # What
 
-A list of curated Powershell scripts to be used with Crowdstrike Falcon Real Time Response/Fusion Workflows/PSFalcon (but you can use them with any EDR/SOAR/tool that permit you to deploy .ps1 scripts).
-Some useful scripts to use in (not only) incident response.
+A list of curated Powershell scripts to be used with Crowdstrike Falcon Real Time Response/Fusion Workflows/PSFalcon (but you can use them with any EDR/SOAR/tool that permit you to deploy .ps1 scripts) to be used in (not only) incident response.
 
 # Docs
 
