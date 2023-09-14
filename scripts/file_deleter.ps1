@@ -1,29 +1,39 @@
 ###############################################################################################################
 ###############################################################################################################
-#### Script to delete specific files based on 5 string filters. ###############################################
+#### Script to delete specific files based on filters. ########################################################
 ###############################################################################################################
 ###############################################################################################################
 
-# Define the directory path and search strings
-# Prompt the user for input and assign values to search strings
-$directoryPath = Read-Host "Enter the first search string" #For instance input C:\Users\ to search in all the Users folder and subfolders
-$searchString1 = Read-Host "Enter the first search string"
-$searchString4 = Read-Host "Enter the fourth search string"
-$searchString5 = Read-Host "Enter the fifth search string"
-$searchString2 = Read-Host "Enter the second search string"
-$searchString3 = Read-Host "Enter the third search string"
+# Prompt the user for the number of search strings
+$numSearchStrings = Read-Host "Enter the number of search strings"
+
+# Initialize an array to store search strings
+$searchStrings = @()
+
+# Prompt the user for search strings based on the specified number
+for ($i = 1; $i -le $numSearchStrings; $i++) {
+    $searchString = Read-Host "Enter search string $i"
+    $searchStrings += $searchString
+}
+
+# Prompt the user for the directory path
+$directoryPath = Read-Host "Enter the directory path"
 
 # Search for files matching the criteria
-$matchingFiles = Get-ChildItem -Path $directoryPath -File -Recurse | 
-    Where-Object { $_.Name -match $searchString1 -and $_.Name -match $searchString4 -and $_.Name -match $searchString5 -and $_.Name -match $searchString2 -and $_.Name -match $searchString3 }
+$matchingFiles = Get-ChildItem -Path $directoryPath -File -Recurse | Where-Object {
+    $file = $_
+    $searchStrings | ForEach-Object { $file.Name -match $_ }
+}
 
 # Display the matching files
 $matchingFiles
 
-# Delete the matching files
-foreach ($file in $matchingFiles) {
+# Initialize an array to store information about removed files
+$removedFilesInfo = @()
 
-$fileInfo = [PSCustomObject]@{
+# Delete the matching files and log information
+foreach ($file in $matchingFiles) {
+    $fileInfo = [PSCustomObject]@{
         FileName = $file.Name
         FullPath = $file.FullName
         RemovalTime = Get-Date
@@ -38,6 +48,3 @@ $fileInfo = [PSCustomObject]@{
 
 # Output information about removed files
 $removedFilesInfo | Format-Table -AutoSize
-
-
-
