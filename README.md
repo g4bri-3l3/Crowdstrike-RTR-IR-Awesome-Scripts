@@ -30,6 +30,7 @@ Invoke-FalconRtr -Command runscript -Argument "-Cloudfile='the_script'" -Command
 ***For a group of hosts***
 
 **Get the group id**
+
 $GroupName = 'SDB - Edge Workstations'.ToLower()
 $Id = Get-FalconHostGroup -Filter "name:'$GroupName'"
 
