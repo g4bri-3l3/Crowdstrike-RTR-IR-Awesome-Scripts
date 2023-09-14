@@ -4,17 +4,26 @@
 ###############################################################################################################
 ###############################################################################################################
 
-# Username and Password
-$username = "tempadmin"
+param (
+    [Parameter(Mandatory=$true, HelpMessage="Enter the username")]
+    [string]$Username,
+
+    [Parameter(Mandatory=$true, HelpMessage="Enter the password")]
+    [string]$Password,
+
+    [Parameter(Mandatory=$true, HelpMessage="Enter the full name")]
+    [string]$FullName,
+
+    [Parameter(Mandatory=$true, HelpMessage="Enter the user description")]
+    [string]$Description
+)
 
 # Prompt the user for a secure password
-$credential = Get-Credential -Message "Enter the password for user $username"
-
-# Extract the password from the credential
-$password = $credential.Password
+$securePassword = ConvertTo-SecureString -String $Password -AsPlainText -Force
 
 # Creating the user
-New-LocalUser -Name "$username" -Password $password -FullName "$username" -Description "Utente admin temp"
+New-LocalUser -Name $Username -Password $securePassword -FullName $FullName -Description $Description
 
 # Add the user to the Administrators group
-Add-LocalGroupMember -Group Administrators -Member admintemp
+Add-LocalGroupMember -Group Administrators -Member $Username
+
