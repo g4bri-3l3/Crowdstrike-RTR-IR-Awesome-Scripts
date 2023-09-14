@@ -23,6 +23,8 @@ Delete files based on various parameters. Can be useful when you are in a hurry 
 - [Memory dumper](https://github.com/g4bri-3l3/Crowdstrike-RTR-IR-Awesome-Scripts/blob/main/scripts/memdump.ps1)
 Dump the memory via netsh command.
 
+- [Local Browser History Export](https://github.com/g4bri-3l3/Crowdstrike-RTR-IR-Awesome-Scripts/blob/main/scripts/local_browser_history_export.ps1)
+Export local browser history in a fancy way (Chrome and Edge supported).
 
 # Suggested Usage
 
