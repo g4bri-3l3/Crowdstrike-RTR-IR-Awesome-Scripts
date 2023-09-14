@@ -35,7 +35,7 @@ Invoke-FalconRtr -Command runscript -Argument "-Cloudfile='the_script'" -Command
 
 ***For a group of hosts***
 
-**Get the group id**
+**To get the group id**
 
 $GroupName = 'Workstations'.ToLower()
 $Id = Get-FalconHostGroup -Filter "name:'$GroupName'"
