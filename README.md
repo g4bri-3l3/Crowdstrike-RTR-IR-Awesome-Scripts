@@ -3,11 +3,11 @@
 A list of curated Powershell scripts to be used with Crowdstrike Falcon Real Time Response (but you can use them with any EDR/tool that permit you to deploy .ps1 scripts).
 Some useful scripts to use in incident response.
 
-#Links
+# Links
 
-- Stolen Device Wiper -
-Leveraging Bitlocker keys to immediately lock an endpoint (you will have in output the new key).
-[Stolen Device Wiper](https://github.com/g4bri-3l3/Crowdstrike-RTR-Awesome-Scripts/blob/main/scripts/stolen_device_wiper.ps1)
+- [Stolen Device Wiper](https://github.com/g4bri-3l3/Crowdstrike-RTR-Awesome-Scripts/blob/main/scripts/stolen_device_wiper.ps1)
+-Leveraging Bitlocker keys to immediately lock an endpoint (you will have in output the new key).
+
 
 # Suggested Usage
 
