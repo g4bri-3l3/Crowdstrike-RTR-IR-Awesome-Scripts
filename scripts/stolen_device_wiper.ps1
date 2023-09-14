@@ -4,6 +4,11 @@
 ###############################################################################################################
 ###############################################################################################################
 
+# Check if BitLocker is running
+$bitlockerStatus = Get-BitLockerVolume -MountPoint "C:" | Select-Object -ExpandProperty VolumeStatus
+
+if ($bitlockerStatus -eq "FullyEncrypted" -or $bitlockerStatus -eq "EncryptionInProgress") {
+# BitLocker is running, so perform the actions
 # Phase 1
 # Wipe existing BitLocker protections
 manage-bde -protectors -delete C:
@@ -24,6 +29,12 @@ Write-Host "BitLocker Recovery Key: $recoveryKey"
 # Force the user to be prompted for new recovery password
 manage-bde -forcerecovery C:
 
-
+Write-Host "Done!!! Restarting system..."
 # Reboot system to trigger recovery prompt
 Restart-Computer -Force
+
+
+} else {
+    # If Bitlocker is not running or is in an incompatible state, display an error
+    Write-Host "BitLocker is not running or in an incompatible state."
+ }
