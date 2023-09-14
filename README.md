@@ -22,4 +22,14 @@ Delete files based on various parameters. Can be useful when you are in a hurry 
 
 # Suggested Usage
 
-Invoke-FalconRtr -Command runscript -Argument "-Cloudfile='the_script'" -HostId 'the_host_id' -Timeout 600 -QueueOffline $true (set the timeout for the script and put in queue in case the host is currently offline)
+
+For a host
+Invoke-FalconRtr -Command runscript -Argument "-Cloudfile='the_script'" -CommandLine="the_arguments" -HostId 'the_host_id' -Timeout 600 -QueueOffline $true (set the timeout for the script and put in queue in case the host is currently offline)
+
+For a group of hosts
+
+Get the group id
+$GroupName = 'SDB - Edge Workstations'.ToLower()
+$Id = Get-FalconHostGroup -Filter "name:'$GroupName'"
+
+Invoke-FalconRtr -Command runscript -Argument "-Cloudfile='the_script'" -CommandLine="the_arguments" -Groupid 'the_group_id' -Timeout 600 -QueueOffline $true (set the timeout for the script and put in queue in case the host is currently offline)
