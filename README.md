@@ -61,3 +61,10 @@ And then leverage it in the Workflow:
 
 ![image](https://github.com/g4bri-3l3/Crowdstrike-RTR-IR-Awesome-Scripts/assets/46595230/0a0dff6e-3e07-4d0a-9a60-ea12830c195a)
 
+
+****With an automation tool such as Tines****
+
+Just leverage Tines and PSFalcon:
+
+![image](https://github.com/g4bri-3l3/Crowdstrike-RTR-IR-Awesome-Scripts/assets/46595230/b494263d-8d31-4e89-9692-dc10c80b48b1)
+
