@@ -64,7 +64,7 @@ And then leverage it in the Workflow:
 
 ****With an automation tool such as Tines****
 
-Just leverage Tines and PSFalcon:
+Just leverage Tines and send the command via RTR:
 
 ![image](https://github.com/g4bri-3l3/Crowdstrike-RTR-IR-Awesome-Scripts/assets/46595230/b494263d-8d31-4e89-9692-dc10c80b48b1)
 
