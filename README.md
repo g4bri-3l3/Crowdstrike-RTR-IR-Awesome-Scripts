@@ -53,7 +53,7 @@ Invoke-FalconRtr -Command runscript -Argument "-Cloudfile='the_script'" -Command
 
 ****With Fusion Workflows****
 
-Upload the script/s, mark them as available in Fusion:
+Upload the script and mark it as available in Fusion:
 
 ![image](https://github.com/g4bri-3l3/Crowdstrike-RTR-IR-Awesome-Scripts/assets/46595230/bb1f92d3-c6b1-43ac-bb52-94e159935983)
 
