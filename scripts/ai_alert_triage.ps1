@@ -48,6 +48,10 @@ function Invoke-AITriage {
         throw "No API key provided. Set `$env:GEMINI_API_KEY or pass -ApiKey."
     }
 
+    # NOTE: $Telemetry is untrusted, attacker-influenceable input (command lines,
+    # file names, etc. collected during IR). It is not sanitized before being
+    # sent to the model. See README "Known limitations" for the prompt-injection
+    # risk this implies and why the script never takes automated action.
     $systemPrompt = @"
 You are a SOC triage assistant. You are given raw host/process telemetry
 collected during incident response via CrowdStrike RTR. Analyze it and
