@@ -33,6 +33,10 @@ Dump the memory via netsh command.
 - [Local Browser History Export](https://github.com/g4bri-3l3/Crowdstrike-RTR-IR-Awesome-Scripts/blob/main/scripts/local_browser_history_export.ps1)
 Export local browser history in a fancy way (Chrome and Edge supported).
 
+- [AI Alert Triage](https://github.com/g4bri-3l3/Crowdstrike-RTR-IR-Awesome-Scripts/blob/main/scripts/ai_alert_triage.ps1)
+Sends RTR-collected telemetry (process list, netstat, parent-process chain, etc.) to an LLM (Gemini by default) and returns a plain-English summary, a likely MITRE ATT&CK mapping, a suggested severity, and a suggested next step. Decision support only - no containment action is taken automatically, an analyst must review the output before acting on it.
+Example usage: ". .\ai_alert_triage.ps1" then "$ps = Invoke-FalconRtr -Command ps -HostId $hostId" then "Invoke-AITriage -Telemetry ($ps | Out-String)"
+
 # Suggested Usage
 
 ****With PSFalcon:****
@@ -68,3 +72,21 @@ Just leverage Tines and send the command via RTR:
 
 ![image](https://github.com/g4bri-3l3/Crowdstrike-RTR-IR-Awesome-Scripts/assets/46595230/b494263d-8d31-4e89-9692-dc10c80b48b1)
 
+# AI-Assisted Triage
+
+`ai_alert_triage.ps1` sends RTR-collected telemetry (process list, netstat, parent-process chain, etc.) to an LLM (Gemini by default) and returns a quick summary, a likely MITRE ATT&CK mapping, a suggested severity, and a suggested next step.
+
+****This is decision support only.**** No containment action is taken automatically - no host isolation, no process kill, no account changes. An analyst must review the output before acting on it.
+
+***Setup***
+
+$env:GEMINI_API_KEY = "..."
+. .\ai_alert_triage.ps1
+
+***Usage***
+
+$ps = Invoke-FalconRtr -Command ps -HostId $hostId
+$result = Invoke-AITriage -Telemetry ($ps | Out-String)
+$result | Format-List
+
+Works with any text blob from RTR/PSFalcon (process list, netstat output, registry run keys, etc.) - not just `ps`.
