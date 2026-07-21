@@ -76,6 +76,8 @@ Just leverage Tines and send the command via RTR:
 
 `ai_alert_triage.ps1` sends RTR-collected telemetry (process list, netstat, parent-process chain, etc.) to an LLM (Gemini by default) and returns a quick summary, a likely MITRE ATT&CK mapping, a suggested severity, and a suggested next step.
 
+This is a lightweight, direct-REST take on the same idea behind CrowdStrike's official [falcon-mcp](https://github.com/CrowdStrike/falcon-mcp) - an MCP server that exposes Falcon detections, threat intel, and host management to AI agents. `falcon-mcp` is the more complete, officially supported path if you need broader Falcon API coverage or multi-tool agent workflows; this script stays intentionally minimal for single-purpose telemetry triage.
+
 ****This is decision support only.**** No containment action is taken automatically - no host isolation, no process kill, no account changes. An analyst must review the output before acting on it.
 
 ***Setup***
@@ -90,3 +92,9 @@ $result = Invoke-AITriage -Telemetry ($ps | Out-String)
 $result | Format-List
 
 Works with any text blob from RTR/PSFalcon (process list, netstat output, registry run keys, etc.) - not just `ps`.
+
+***Known limitations***
+
+- **Telemetry is untrusted input.** Command lines, file names, and other fields in the collected telemetry are attacker-controlled data, not sanitized text. A crafted process command line could contain instructions aimed at the LLM itself (e.g. text designed to make the model under-rate severity or suggest no action). Treat every field in the telemetry blob as potentially adversarial, the same way you would with any other attacker-supplied string in an IR pipeline.
+- **Mitigations already in place:** the script never executes anything automatically (decision support only), and the system prompt explicitly instructs the model to prefer a lower-confidence, human-review-first framing when evidence is ambiguous.
+- **Mitigations to consider adding:** logging the raw telemetry alongside the model's output for later audit, and/or a basic pre-filter that flags telemetry containing suspicious phrases (e.g. "ignore previous instructions") for extra analyst scrutiny before trusting the triage result.
