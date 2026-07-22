@@ -28,7 +28,7 @@ Delete files based on various parameters. Can be useful when you are in a hurry 
 Example usage: ".\file_deleter.ps1 -NumSearchStrings 2 -SearchStrings "string1", "string2" -DirectoryPath "C:\Users\""
 
 - [Memory dumper](https://github.com/g4bri-3l3/Crowdstrike-RTR-IR-Awesome-Scripts/blob/main/scripts/netdump.ps1)
-Dump the memory via netsh command.
+Dump the network traffic via netsh command.
 
 - [Local Browser History Export](https://github.com/g4bri-3l3/Crowdstrike-RTR-IR-Awesome-Scripts/blob/main/scripts/local_browser_history_export.ps1)
 Export local browser history in a fancy way (Chrome and Edge supported).
