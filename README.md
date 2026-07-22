@@ -37,7 +37,7 @@ Export local browser history in a fancy way (Chrome and Edge supported).
 Sends RTR-collected telemetry (process list, netstat, parent-process chain, etc.) to an LLM (Gemini by default) and returns a plain-English summary, a likely MITRE ATT&CK mapping, a suggested severity, and a suggested next step. Decision support only - no containment action is taken automatically, an analyst must review the output before acting on it.
 Example usage: ". .\ai_alert_triage.ps1" then "$ps = Invoke-FalconRtr -Command ps -HostId $hostId" then "Invoke-AITriage -Telemetry ($ps | Out-String)"
 
-IR Log Collector Collects System/Security/Application event logs (last N hours), DNS client cache, Run/RunOnce persistence keys, and running processes with parent PID/command line, then packages everything into a single zip ready for RTR "get". Inspired by happyvives/Windows-IR. Example usage: "ir_log_collector.ps1 -HoursBack 48"
+-[IR Log Collector] (https://github.com/g4bri-3l3/Crowdstrike-RTR-IR-Awesome-Scripts/blob/main/scripts/ir_log_collector.ps1) IR Log Collector Collects System/Security/Application event logs (last N hours), DNS client cache, Run/RunOnce persistence keys, and running processes with parent PID/command line, then packages everything into a single zip ready for RTR "get". Inspired by happyvives/Windows-IR. Example usage: "ir_log_collector.ps1 -HoursBack 48"
 
 # Suggested Usage
 
