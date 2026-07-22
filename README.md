@@ -27,7 +27,7 @@ Example usage: ".\create_local_admin.ps1 -Username "tempadmin" -Password "YourPa
 Delete files based on various parameters. Can be useful when you are in a hurry in incident response or maybe handling an internal error (for instance a member of finance staff wrongly sent a private document ;).
 Example usage: ".\file_deleter.ps1 -NumSearchStrings 2 -SearchStrings "string1", "string2" -DirectoryPath "C:\Users\""
 
-- [Memory dumper](https://github.com/g4bri-3l3/Crowdstrike-RTR-IR-Awesome-Scripts/blob/main/scripts/netdump.ps1)
+- [Net dumper](https://github.com/g4bri-3l3/Crowdstrike-RTR-IR-Awesome-Scripts/blob/main/scripts/netdump.ps1)
 Dump the network traffic via netsh command.
 
 - [Local Browser History Export](https://github.com/g4bri-3l3/Crowdstrike-RTR-IR-Awesome-Scripts/blob/main/scripts/local_browser_history_export.ps1)
