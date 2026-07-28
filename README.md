@@ -10,11 +10,11 @@ https://www.crowdstrike.com/blog/how-to-defend-against-threats-with-falcon-fusio
 
 # Scripts
 
-- [Stolen Device Wiper](https://github.com/g4bri-3l3/Crowdstrike-RTR-Awesome-Scripts/blob/main/scripts/stolen_device_wiper.ps1)
+- [Stolen Device Wiper](https://github.com/g4bri-3l3/Crowdstrike-RTR-IR-Awesome-Scripts/blob/main/scripts/stolen_device_wiper.ps1)
 Leveraging Bitlocker keys to immediately lock an endpoint (you will have in output the new key).
 
 - [Chrome Extensions Lister ](https://github.com/g4bri-3l3/Crowdstrike-RTR-IR-Awesome-Scripts/blob/main/scripts/chrome_extensions_lister.ps1)
-List all Chrome Extensions and optionally upload the hash to VirusTotal.
+List all Chrome Extensions installed for local or remote users, with title/description looked up from the Chrome Web Store. The `-VirusTotalApiKey` parameter is a documented placeholder for now - hash lookup against VirusTotal is not yet implemented.
 
 - [Terminated User Handle](https://github.com/g4bri-3l3/Crowdstrike-RTR-IR-Awesome-Scripts/blob/main/scripts/terminated_user_handle.ps1)
 When a user is terminated, handle it by immediately removing the session on the host, changing local passwords, Kerberos keys, etc.
@@ -28,7 +28,7 @@ Delete files based on various parameters. Can be useful when you are in a hurry 
 Example usage: ".\file_deleter.ps1 -NumSearchStrings 2 -SearchStrings "string1", "string2" -DirectoryPath "C:\Users\""
 
 - [Net dumper](https://github.com/g4bri-3l3/Crowdstrike-RTR-IR-Awesome-Scripts/blob/main/scripts/netdump.ps1)
-Dump the network traffic via netsh command.
+Dump the network traffic via netsh command. Capture size is capped to 50% of free disk space on the destination drive rather than a fixed value.
 
 - [Local Browser History Export](https://github.com/g4bri-3l3/Crowdstrike-RTR-IR-Awesome-Scripts/blob/main/scripts/local_browser_history_export.ps1)
 Export local browser history in a fancy way (Chrome and Edge supported).
@@ -38,7 +38,8 @@ Sends RTR-collected telemetry (process list, netstat, parent-process chain, etc.
 Example usage: ". .\ai_alert_triage.ps1" then "$ps = Invoke-FalconRtr -Command ps -HostId $hostId" then "Invoke-AITriage -Telemetry ($ps | Out-String)"
 
 - [IR Log Collector](https://github.com/g4bri-3l3/Crowdstrike-RTR-IR-Awesome-Scripts/blob/main/scripts/ir_log_collector.ps1)
-IR Log Collector Collects System/Security/Application event logs (last N hours), DNS client cache, Run/RunOnce persistence keys, and running processes with parent PID/command line, then packages everything into a single zip ready for RTR "get". Inspired by happyvives/Windows-IR. Example usage: "ir_log_collector.ps1 -HoursBack 48"
+Collects System/Security/Application event logs (last N hours), DNS client cache, Run/RunOnce persistence keys, and running processes with parent PID/command line, then packages everything into a single zip ready for RTR "get". Inspired by happyvives/Windows-IR.
+Example usage: ".\ir_log_collector.ps1 -HoursBack 48"
 
 # Suggested Usage
 
