@@ -103,8 +103,17 @@ catch {
 
 # Package everything into a single zip for RTR "get"
 $zipPath = "$collectFolder.zip"
-Compress-Archive -Path "$collectFolder\*" -DestinationPath $zipPath -Force
-Remove-Item -Path $collectFolder -Recurse -Force
-
-Write-Host "IR bundle ready at: $zipPath"
-Write-Host "Pull it down with the RTR 'get' command: get $zipPath"
+try {
+    Compress-Archive -Path "$collectFolder\*" -DestinationPath $zipPath -Force -ErrorAction Stop
+    if (Test-Path -Path $zipPath) {
+        Remove-Item -Path $collectFolder -Recurse -Force
+        Write-Host "IR bundle ready at: $zipPath"
+        Write-Host "Pull it down with the RTR 'get' command: get $zipPath"
+    }
+    else {
+        Write-Warning "Compress-Archive did not report an error, but '$zipPath' was not found. Leaving raw files in '$collectFolder' rather than deleting them."
+    }
+}
+catch {
+    Write-Warning "Failed to compress collected data: $($_.Exception.Message). Leaving raw files in '$collectFolder' rather than deleting them."
+}
