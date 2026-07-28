@@ -5,6 +5,7 @@ A list of curated Powershell scripts to be used with Crowdstrike Falcon Real Tim
 # Docs
 
 https://falcon.eu-1.crowdstrike.com/documentation/page/faa65a8c/falcon-fusion-playbooks
+
 https://www.crowdstrike.com/blog/how-to-defend-against-threats-with-falcon-fusion-and-falcon-real-time-response/
 
 
