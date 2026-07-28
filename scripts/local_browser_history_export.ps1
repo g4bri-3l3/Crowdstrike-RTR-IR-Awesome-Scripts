@@ -4,9 +4,6 @@
 ###############################################################################################################
 ###############################################################################################################
 
-# Set ErrorActionPreference to SilentlyContinue to suppress errors
-$ErrorActionPreference = 'SilentlyContinue'
-
 # Print information about script usage
 Write-Host '-------------------------'
 Write-Host 'BE SURE TO ADD -Timeout=600 in the runscript options before you run this script'
@@ -15,8 +12,8 @@ Write-Host 'runscript -CloudFile="Browser_History_Hindsight" -Timeout=600'
 Write-Host '-------------------------'
 Write-Host "[+] INFO: Fetching Latest 4 Users Chrome, Edge History"
 
-# Stop any existing 'hindsight' processes
-Stop-Process -Name hindsight -Force
+# Stop any existing 'hindsight' processes (fine if none are running)
+Stop-Process -Name hindsight -Force -ErrorAction SilentlyContinue
 
 # Create a temporary directory if it doesn't exist
 $tempDir = 'C:\windows\Temp\ftech_temp'
@@ -29,7 +26,32 @@ if (-not (Test-Path -Path $tempDir -PathType Container)) {
 # specific 2021 version, check https://github.com/obsidianforensics/hindsight/releases
 # periodically for a newer build.
 $downloadUrl = 'https://github.com/obsidianforensics/hindsight/releases/download/v2021.12/hindsight.exe'
-Invoke-WebRequest -Uri $downloadUrl -OutFile "$tempDir\hindsight.exe"
+$hindsightPath = "$tempDir\hindsight.exe"
+
+# Fill in the SHA256 of the specific release binary you've vetted, to catch a
+# tampered or corrupted download before executing it. Leave blank to skip the
+# check (not recommended for a binary fetched and run automatically).
+$expectedSha256 = ''
+
+try {
+    Invoke-WebRequest -Uri $downloadUrl -OutFile $hindsightPath -ErrorAction Stop
+}
+catch {
+    Write-Error "Failed to download hindsight.exe from '$downloadUrl': $($_.Exception.Message). Aborting."
+    return
+}
+
+if ($expectedSha256) {
+    $actualHash = (Get-FileHash -Path $hindsightPath -Algorithm SHA256).Hash
+    if ($actualHash -ne $expectedSha256) {
+        Write-Error "hindsight.exe hash mismatch (expected $expectedSha256, got $actualHash) - possible tampered or corrupted download. Aborting."
+        Remove-Item -Path $hindsightPath -Force
+        return
+    }
+}
+else {
+    Write-Warning "No expected SHA256 pinned for hindsight.exe - skipping integrity check."
+}
 
 # Loop through the top 4 recent user directories
 $recentUserDirs = Get-ChildItem -Directory -Path 'C:\Users\' -ErrorAction SilentlyContinue -Force |
