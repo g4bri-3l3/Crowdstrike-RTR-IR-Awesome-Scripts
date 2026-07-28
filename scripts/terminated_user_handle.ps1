@@ -66,14 +66,24 @@ Get-LocalUser | Where-Object { $ExcludedLocalAccounts -notcontains $_.Name } | F
 }
 
 # Clear all Kerberos tickets (run as a separate job)
-Start-Job -ScriptBlock {
+# NOTE: klist purge -li expects the logon ID formatted as hex WITH the "0x"
+# prefix (e.g. "0x3e7") - without it, klist may not resolve the LUID correctly
+# and silently fail to purge the ticket.
+$purgeJob = Start-Job -ScriptBlock {
     Get-CimInstance -ClassName 'Win32_LogonSession' -ErrorAction Stop | Where-Object { $_.AuthenticationPackage -ne 'NTLM' } | ForEach-Object {
-        klist.exe purge -li ([Convert]::ToString($_.LogonId, 16)) 
+        klist.exe purge -li ("0x" + [Convert]::ToString($_.LogonId, 16))
     }
 }
 
-# Provide a cushion to allow the Kerberos ticket clear job an opportunity to complete
-Start-Sleep -Seconds 5
+# Wait (bounded) for the purge job instead of trusting a fixed sleep, and
+# surface its output/errors instead of silently discarding them.
+$null = Wait-Job -Job $purgeJob -Timeout 15
+$purgeOutput = Receive-Job -Job $purgeJob -ErrorAction SilentlyContinue
+if ($purgeOutput) { $purgeOutput | Out-String | Write-Host }
+if ($purgeJob.State -eq 'Running') {
+    Write-Warning "Kerberos ticket purge job did not finish within 15 seconds - proceeding with shutdown anyway."
+}
+Remove-Job -Job $purgeJob -Force -ErrorAction SilentlyContinue
 
 # Shutdown the computer once completed
 Stop-Computer -Force
