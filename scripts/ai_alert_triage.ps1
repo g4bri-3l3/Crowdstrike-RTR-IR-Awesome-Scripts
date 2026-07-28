@@ -23,7 +23,7 @@
     Gemini API key. Defaults to $env:GEMINI_API_KEY.
 
 .PARAMETER Model
-    Gemini model name. Defaults to gemini-2.0-flash.
+    Gemini model name. Defaults to gemini-3.5-flash.
 
 .EXAMPLE
     . .\ai_alert_triage.ps1
@@ -41,17 +41,13 @@ function Invoke-AITriage {
         [string]$ApiKey = $env:GEMINI_API_KEY,
 
         [Parameter(Mandatory = $false)]
-        [string]$Model = "gemini-2.0-flash"
+        [string]$Model = "gemini-3.5-flash"
     )
 
     if (-not $ApiKey) {
         throw "No API key provided. Set `$env:GEMINI_API_KEY or pass -ApiKey."
     }
 
-    # NOTE: $Telemetry is untrusted, attacker-influenceable input (command lines,
-    # file names, etc. collected during IR). It is not sanitized before being
-    # sent to the model. See README "Known limitations" for the prompt-injection
-    # risk this implies and why the script never takes automated action.
     $systemPrompt = @"
 You are a SOC triage assistant. You are given raw host/process telemetry
 collected during incident response via CrowdStrike RTR. Analyze it and
