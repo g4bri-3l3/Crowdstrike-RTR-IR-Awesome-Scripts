@@ -75,9 +75,16 @@ guess.
     }
     $body = $bodyObj | ConvertTo-Json -Depth 10
 
-    $uri = "https://generativelanguage.googleapis.com/v1beta/models/${Model}:generateContent?key=$ApiKey"
+    # API key sent as a header rather than a URL query parameter, so it
+    # doesn't end up verbatim in any proxy/TLS-inspection access logs.
+    $uri = "https://generativelanguage.googleapis.com/v1beta/models/${Model}:generateContent"
 
-    $response = Invoke-RestMethod -Uri $uri -Method Post -Body $body -ContentType "application/json"
+    try {
+        $response = Invoke-RestMethod -Uri $uri -Method Post -Body $body -ContentType "application/json" -Headers @{ "x-goog-api-key" = $ApiKey } -ErrorAction Stop
+    }
+    catch {
+        throw "Gemini API call failed: $($_.Exception.Message)"
+    }
     $rawText = $response.candidates[0].content.parts[0].text
 
     try {
