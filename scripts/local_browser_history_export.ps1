@@ -25,6 +25,9 @@ if (-not (Test-Path -Path $tempDir -PathType Container)) {
 }
 
 # Download the hindsight.exe tool
+# NOTE: verify this release still resolves before relying on it - pinned to a
+# specific 2021 version, check https://github.com/obsidianforensics/hindsight/releases
+# periodically for a newer build.
 $downloadUrl = 'https://github.com/obsidianforensics/hindsight/releases/download/v2021.12/hindsight.exe'
 Invoke-WebRequest -Uri $downloadUrl -OutFile "$tempDir\hindsight.exe"
 
@@ -56,10 +59,22 @@ $excelFiles = Get-ChildItem -Path $tempDir -Filter *.xlsx
 
 # Compress Excel files into a zip archive
 $zipFilePath = 'C:\windows\Temp\ftech_temp\hindsight.zip'
-$excelFiles | Compress-Archive -DestinationPath $zipFilePath -Force
+if ($excelFiles) {
+    $excelFiles | Compress-Archive -DestinationPath $zipFilePath -Force
 
-# Print instructions for viewing and cleaning up
-Write-Host "Type the following command to view the contents of the zip file:"
-Write-Host "Get-Content $zipFilePath"
-Write-Host "Password is infected. When the download is complete, type:"
-Write-Host "Remove-Item $tempDir -Force"
+    # Print instructions for viewing and cleaning up.
+    # NOTE: Compress-Archive has NO password/encryption support - the previous
+    # version of this script told the analyst to expect a password ("infected"),
+    # but the zip it actually produces is NOT password-protected. Corrected below
+    # so nobody assumes there's protection on this browsing-history data that
+    # isn't actually there. If you need real password protection, use 7-Zip (if
+    # available on the host) instead of Compress-Archive.
+    Write-Host "Type the following command to view the contents of the zip file:"
+    Write-Host "Get-Content $zipFilePath"
+    Write-Host "NOTE: this zip is NOT password-protected (Compress-Archive doesn't support it)."
+    Write-Host "When the download is complete, type:"
+    Write-Host "Remove-Item $tempDir -Force -Recurse"
+}
+else {
+    Write-Warning "No .xlsx output files were found - Hindsight may have failed for all users. Nothing to compress."
+}
