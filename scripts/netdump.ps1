@@ -11,9 +11,8 @@
 .DESCRIPTION
     Same underlying netsh trace approach as before, with one change: the max capture
     size is capped to 50% of free space on the destination drive (same safety limit
-    used by https://github.com/C0ubv9/CS_PacketCap) instead of a hardcoded 1000 MB,
-    so the capture can't fill the disk on hosts with little free space, and can
-    safely use more than 1GB on hosts with plenty of it.
+    used by https://github.com/C0ubv9/CS_PacketCap), so the capture can't fill the 
+    disk on hosts with little free space.
 .PARAMETER DesiredMaxSizeMB
     Preferred capture size cap in MB (default 1000). Actual cap is the lower of this
     value and 50% of free space on the destination drive.
