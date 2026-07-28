@@ -22,7 +22,8 @@ When a user is terminated, handle it by immediately removing the session on the 
 
 - [Local Admin Creator](https://github.com/g4bri-3l3/Crowdstrike-RTR-IR-Awesome-Scripts/blob/main/scripts/create_local_admin.ps1)
 A simple script to create a local admin user on the host. Useful in case you have lost access to the endpoint.
-Example usage: ".\create_local_admin.ps1 -Username "tempadmin" -Password "YourPassword" -FullName "Temp Admin" -Description "Temporary admin user"
+`-Password` is a `SecureString` and optional - if omitted (recommended), the script generates a random 20-character password and prints it once via `Write-Warning`; record it and rotate it immediately after use. Passing `-Password` as a plain string literal still works (PowerShell casts it to SecureString), but the plaintext will still appear in the process command line/RTR audit logs at that point, so prefer letting the script generate one.
+Example usage (recommended): ".\create_local_admin.ps1 -Username "tempadmin" -FullName "Temp Admin" -Description "Temporary admin user"
 
 - [File Deleter](https://github.com/g4bri-3l3/Crowdstrike-RTR-IR-Awesome-Scripts/blob/main/scripts/file_deleter.ps1)
 Delete files based on various parameters. Can be useful when you are in a hurry in incident response or maybe handling an internal error (for instance a member of finance staff wrongly sent a private document ;).
