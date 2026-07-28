@@ -20,9 +20,17 @@ manage-bde -protectors -add C: -RecoveryPassword
 # Verify new recovery password will be required on next reboot
 manage-bde -protectors -enable C:
 
-# Display the BitLocker recovery key
-$recoveryKey = manage-bde -protectors -get C: | Where-Object { $_ -like '*Recovery Password*' }
-Write-Host "BitLocker Recovery Key: $recoveryKey"
+# Display the BitLocker recovery key.
+$recoveryKeyOutput = manage-bde -protectors -get C:
+$recoveryKey = ($recoveryKeyOutput | Select-String -Pattern '\d{6}-\d{6}-\d{6}-\d{6}-\d{6}-\d{6}-\d{6}-\d{6}' | ForEach-Object { $_.Matches[0].Value }) | Select-Object -First 1
+
+if (-not $recoveryKey) {
+    Write-Warning "Could not automatically extract the recovery key - printing full manage-bde output below. Do not proceed to force-recovery/restart until you have confirmed and recorded the actual key."
+    $recoveryKeyOutput
+}
+else {
+    Write-Host "BitLocker Recovery Key: $recoveryKey"
+}
 
 
 # Phase 3
