@@ -29,7 +29,8 @@ $ExcludedLocalAccounts = @(
     'WDAGUtilityAccount'
 )
 
-# Log off all current user sessions
+# Log off all current user sessions (Flags=4 is Forced Log Off - confirmed against
+# Microsoft's Win32Shutdown documentation)
 Invoke-CimMethod -ClassName Win32_Operatingsystem -ComputerName . -MethodName Win32Shutdown -Arguments @{ Flags = 4 }
 
 # Disable cached credentials (requires a reboot)
@@ -46,15 +47,10 @@ catch {
 
 # Function to generate a random password
 function Generate-RandomPassword {
-    $characters = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890~!@#$%^&*_-+=`|\(){}[]:;`"<>,.?/'
+    $characters = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890~!@#$%^&*_-+=|\(){}[]:;"<>,.?/'
     $passwordLength = 20
-    $password = ""
-    
-    for ($i = 0; $i -lt $passwordLength; $i++) {
-        $password += $characters | Get-Random
-    }
 
-    return $password
+    return -join ($characters.ToCharArray() | Get-Random -Count $passwordLength)
 }
 
 # Change passwords for local user accounts
