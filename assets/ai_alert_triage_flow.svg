@@ -1,0 +1,63 @@
+<svg viewBox="0 0 1200 420" xmlns="http://www.w3.org/2000/svg" font-family="'Segoe UI', Helvetica, Arial, sans-serif">
+  <defs>
+    <marker id="arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M 0 0 L 10 5 L 0 10 z" fill="#5eead4"/>
+    </marker>
+  </defs>
+
+  <rect width="1200" height="420" fill="#0b1120"/>
+
+  <text x="40" y="50" font-size="26" font-weight="700" fill="#f8fafc">AI Alert Triage — Flow</text>
+  <text x="40" y="76" font-size="14" fill="#94a3b8">ai_alert_triage.ps1 · decision support only, no automated action</text>
+
+  <!-- Stage 1: RTR -->
+  <rect x="40" y="130" width="190" height="130" rx="10" fill="#111827" stroke="#334155" stroke-width="1.5"/>
+  <text x="135" y="165" font-size="15" font-weight="700" fill="#f8fafc" text-anchor="middle">CrowdStrike RTR</text>
+  <text x="135" y="185" font-size="15" font-weight="700" fill="#f8fafc" text-anchor="middle">Session</text>
+  <text x="135" y="215" font-size="12" fill="#94a3b8" text-anchor="middle">ps / netstat /</text>
+  <text x="135" y="232" font-size="12" fill="#94a3b8" text-anchor="middle">process tree</text>
+
+  <line x1="230" y1="195" x2="272" y2="195" stroke="#5eead4" stroke-width="2" marker-end="url(#arrow)"/>
+
+  <!-- Stage 2: PowerShell function -->
+  <rect x="278" y="130" width="190" height="130" rx="10" fill="#111827" stroke="#334155" stroke-width="1.5"/>
+  <text x="373" y="165" font-size="15" font-weight="700" fill="#f8fafc" text-anchor="middle">Invoke-AITriage</text>
+  <text x="373" y="195" font-size="12" fill="#94a3b8" text-anchor="middle">telemetry text blob</text>
+  <text x="373" y="212" font-size="12" fill="#94a3b8" text-anchor="middle">→ system prompt +</text>
+  <text x="373" y="229" font-size="12" fill="#94a3b8" text-anchor="middle">telemetry payload</text>
+
+  <line x1="468" y1="195" x2="510" y2="195" stroke="#5eead4" stroke-width="2" marker-end="url(#arrow)"/>
+
+  <!-- Stage 3: Gemini -->
+  <rect x="516" y="130" width="190" height="130" rx="10" fill="#111827" stroke="#334155" stroke-width="1.5"/>
+  <text x="611" y="165" font-size="15" font-weight="700" fill="#f8fafc" text-anchor="middle">Gemini API</text>
+  <text x="611" y="195" font-size="12" fill="#94a3b8" text-anchor="middle">gemini-2.0-flash</text>
+  <text x="611" y="212" font-size="12" fill="#94a3b8" text-anchor="middle">low temperature,</text>
+  <text x="611" y="229" font-size="12" fill="#94a3b8" text-anchor="middle">JSON-only response</text>
+
+  <line x1="706" y1="195" x2="748" y2="195" stroke="#5eead4" stroke-width="2" marker-end="url(#arrow)"/>
+
+  <!-- Stage 4: Structured output -->
+  <rect x="754" y="110" width="220" height="170" rx="10" fill="#111827" stroke="#334155" stroke-width="1.5"/>
+  <text x="864" y="140" font-size="15" font-weight="700" fill="#f8fafc" text-anchor="middle">Structured Output</text>
+  <text x="774" y="165" font-size="12" fill="#cbd5e1">• summary</text>
+  <text x="774" y="185" font-size="12" fill="#cbd5e1">• mitre_technique</text>
+  <text x="774" y="205" font-size="12" fill="#cbd5e1">• severity</text>
+  <text x="774" y="225" font-size="12" fill="#cbd5e1">• recommended_action</text>
+  <text x="774" y="245" font-size="12" fill="#cbd5e1">• confidence</text>
+
+  <line x1="974" y1="195" x2="1016" y2="195" stroke="#5eead4" stroke-width="2" marker-end="url(#arrow)"/>
+
+  <!-- Stage 5: Analyst -->
+  <rect x="1022" y="130" width="140" height="130" rx="10" fill="#0f2027" stroke="#5eead4" stroke-width="1.5"/>
+  <text x="1092" y="170" font-size="15" font-weight="700" fill="#f8fafc" text-anchor="middle">Analyst</text>
+  <text x="1092" y="190" font-size="15" font-weight="700" fill="#f8fafc" text-anchor="middle">Review</text>
+  <text x="1092" y="220" font-size="11" fill="#5eead4" text-anchor="middle">human decides,</text>
+  <text x="1092" y="235" font-size="11" fill="#5eead4" text-anchor="middle">not the model</text>
+
+  <!-- Bottom banner -->
+  <rect x="40" y="330" width="1122" height="50" rx="8" fill="#1c1408" stroke="#92400e" stroke-width="1.5"/>
+  <text x="601" y="360" font-size="13" fill="#fbbf24" text-anchor="middle" font-weight="600">
+    Decision support only — no host isolation, no process kill, no account changes are ever taken automatically
+  </text>
+</svg>
