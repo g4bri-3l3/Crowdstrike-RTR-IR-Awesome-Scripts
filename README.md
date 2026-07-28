@@ -26,8 +26,9 @@ A simple script to create a local admin user on the host. Useful in case you hav
 Example usage (recommended): ".\create_local_admin.ps1 -Username "tempadmin" -FullName "Temp Admin" -Description "Temporary admin user"
 
 - [File Deleter](https://github.com/g4bri-3l3/Crowdstrike-RTR-IR-Awesome-Scripts/blob/main/scripts/file_deleter.ps1)
-Delete files based on various parameters. Can be useful when you are in a hurry in incident response or maybe handling an internal error (for instance a member of finance staff wrongly sent a private document ;).
-Example usage: ".\file_deleter.ps1 -NumSearchStrings 2 -SearchStrings "string1", "string2" -DirectoryPath "C:\Users\""
+Delete files based on various parameters, searching recursively through subfolders. Can be useful when you are in a hurry in incident response or maybe handling an internal error (for instance a member of finance staff wrongly sent a private document ;).
+Example usage: ".\file_deleter.ps1 -SearchStrings "string1", "string2" -DirectoryPath "C:\Users\""
+If you do not pass -SearchStrings/-DirectoryPath, the script will prompt for them interactively. The search is recursive - it looks through all subfolders under -DirectoryPath, not just the top level. Search strings are matched as literal substrings by default (pass -UseRegex to treat them as regex patterns instead). Either way, the script always lists the matching files and asks for explicit confirmation (type YES) before deleting - pass -Force to skip the prompt.
 
 - [Net dumper](https://github.com/g4bri-3l3/Crowdstrike-RTR-IR-Awesome-Scripts/blob/main/scripts/netdump.ps1)
 Dump the network traffic via netsh command. Capture size is capped to 50% of free disk space on the destination drive rather than a fixed value.
