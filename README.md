@@ -85,6 +85,8 @@ This is a lightweight, direct-REST take on the same idea behind CrowdStrike's of
 
 ****This is decision support only.**** No containment action is taken automatically - no host isolation, no process kill, no account changes. An analyst must review the output before acting on it.
 
+![AI Alert Triage flow](assets/ai_alert_triage_flow.svg)
+
 ***Setup***
 
 $env:GEMINI_API_KEY = "..."
