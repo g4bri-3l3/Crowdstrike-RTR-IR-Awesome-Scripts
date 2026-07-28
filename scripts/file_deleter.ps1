@@ -7,7 +7,15 @@
 param (
     [int]$NumSearchStrings,
     [string[]]$SearchStrings,
-    [string]$DirectoryPath
+    [string]$DirectoryPath,
+    # Search strings are treated as literal substrings by default. Pass
+    # -UseRegex to opt into the previous behavior (each string is a regex
+    # pattern) - without this, a string like "report.docx" would also match
+    # "reportXdocx" etc., since "." is a regex wildcard.
+    [switch]$UseRegex,
+    # Skip the confirmation prompt before deleting (e.g. for non-interactive
+    # automation). Default requires typing YES after the match list is shown.
+    [switch]$Force
 )
 
 # If search strings are not provided as arguments, prompt the user.
@@ -33,7 +41,9 @@ if (-not $DirectoryPath) {
 # Search for files matching the criteria.
 $matchingFiles = Get-ChildItem -Path $DirectoryPath -File -Recurse | Where-Object {
     $fileName = $_.Name
-    $SearchStrings | Where-Object { $fileName -match $_ }
+    $SearchStrings | Where-Object {
+        if ($UseRegex) { $fileName -match $_ } else { $fileName -match [regex]::Escape($_) }
+    }
 }
 
 # Display the matching files
@@ -43,6 +53,16 @@ if (-not $matchingFiles) {
 else {
     Write-Host "Found $(@($matchingFiles).Count) matching file(s):"
     $matchingFiles
+}
+
+# Require explicit confirmation before permanently deleting anything, unless
+# -Force was passed (e.g. for scripted/non-interactive runs).
+if ($matchingFiles -and -not $Force) {
+    $confirmation = Read-Host "Type YES to permanently delete the $(@($matchingFiles).Count) file(s) listed above"
+    if ($confirmation -ne 'YES') {
+        Write-Host "Aborted - no files were deleted."
+        return
+    }
 }
 
 # Initialize an array to store information about removed files
