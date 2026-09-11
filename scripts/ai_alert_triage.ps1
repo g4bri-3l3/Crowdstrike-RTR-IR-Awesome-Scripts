@@ -23,7 +23,7 @@
     Gemini API key. Defaults to $env:GEMINI_API_KEY.
 
 .PARAMETER Model
-    Gemini model name. Defaults to gemini-3.5-flash.
+    Gemini model name. Defaults to gemini-3.7-flash.
 
 .EXAMPLE
     . .\ai_alert_triage.ps1
@@ -41,7 +41,7 @@ function Invoke-AITriage {
         [string]$ApiKey = $env:GEMINI_API_KEY,
 
         [Parameter(Mandatory = $false)]
-        [string]$Model = "gemini-3.5-flash"
+        [string]$Model = "gemini-3.7-flash"
     )
 
     if (-not $ApiKey) {
