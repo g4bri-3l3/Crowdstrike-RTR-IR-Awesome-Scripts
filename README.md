@@ -33,6 +33,13 @@ If you do not pass -SearchStrings/-DirectoryPath, the script will prompt for the
 - [Net dumper](https://github.com/g4bri-3l3/Crowdstrike-RTR-IR-Awesome-Scripts/blob/main/scripts/netdump.ps1)
 Dump the network traffic via netsh command. Capture size is capped to 50% of free disk space on the destination drive rather than a fixed value.
 
+- [Net dumper stop](https://github.com/g4bri-3l3/Crowdstrike-RTR-IR-Awesome-Scripts/blob/main/scripts/netdump_stop.ps1)
+Stops the capture started by the Net dumper and zips it, ready for RTR "get". Use a generous `-Timeout`: stopping a big trace can take a while.
+
+- [Local Admin Remover](https://github.com/g4bri-3l3/Crowdstrike-RTR-IR-Awesome-Scripts/blob/main/scripts/remove_local_admin.ps1)
+The counterpart of the Local Admin Creator: deletes the account (or just disables it with `-Disable`) and logs when it happened. Never touches the built-in Administrator.
+Example usage: ".\remove_local_admin.ps1 -Username "tempadmin""
+
 - [Local Browser History Export](https://github.com/g4bri-3l3/Crowdstrike-RTR-IR-Awesome-Scripts/blob/main/scripts/local_browser_history_export.ps1)
 Export local browser history in a fancy way (Chrome and Edge supported).
 
@@ -41,8 +48,30 @@ Sends RTR-collected telemetry (process list, netstat, parent-process chain, etc.
 Example usage: ". .\ai_alert_triage.ps1" then "$ps = Invoke-FalconRtr -Command ps -HostId $hostId" then "Invoke-AITriage -Telemetry ($ps | Out-String)"
 
 - [IR Log Collector](https://github.com/g4bri-3l3/Crowdstrike-RTR-IR-Awesome-Scripts/blob/main/scripts/ir_log_collector.ps1)
-Collects System/Security/Application event logs (last N hours), DNS client cache, Run/RunOnce persistence keys, and running processes with parent PID/command line, then packages everything into a single zip ready for RTR "get". Inspired by happyvives/Windows-IR.
+Collects System/Security/Application event logs (last N hours), DNS client cache, running processes with parent PID/command line, and the usual persistence spots (Run/RunOnce keys, scheduled tasks, non-Windows-path services, WMI subscriptions, Startup folders). It also grabs users' PowerShell history and ScriptBlock (4104) events, then packages everything into a single zip ready for RTR "get". Inspired by happyvives/Windows-IR.
 Example usage: ".\ir_log_collector.ps1 -HoursBack 48"
+
+- [Logon Timeline](https://github.com/g4bri-3l3/Crowdstrike-RTR-IR-Awesome-Scripts/blob/main/scripts/logon_timeline.ps1)
+Logon and RDP events (4624/4625/4648/4778/4779 plus TerminalServices logs) flattened into one CSV with user, source IP and logon type. Handy for lateral movement. Example: ".\logon_timeline.ps1 -HoursBack 72"
+
+- [USB History](https://github.com/g4bri-3l3/Crowdstrike-RTR-IR-Awesome-Scripts/blob/main/scripts/usb_history.ps1)
+Which USB storage devices were plugged in (USBSTOR registry + related events). Read-only, useful in exfiltration cases.
+
+- [Execution Artifacts](https://github.com/g4bri-3l3/Crowdstrike-RTR-IR-Awesome-Scripts/blob/main/scripts/execution_artifacts.ps1)
+Zips Prefetch, Amcache.hve and users' recent LNK files so you can parse them offline (Eric Zimmerman's tools work well).
+
+- [Suspicious Binaries](https://github.com/g4bri-3l3/Crowdstrike-RTR-IR-Awesome-Scripts/blob/main/scripts/suspicious_binaries.ps1)
+Finds unsigned or badly signed exe/dll/scr/com files in AppData, Temp, ProgramData and Public, with SHA256. Read-only. Unsigned is a lead, not a verdict. Example: ".\suspicious_binaries.ps1 -DaysBack 14"
+
+- [Defender Exclusions](https://github.com/g4bri-3l3/Crowdstrike-RTR-IR-Awesome-Scripts/blob/main/scripts/defender_exclusions.ps1)
+Prints Defender exclusions (paths, processes, extensions, IPs), tells local ones from policy ones, and flags disabled protections. Read-only.
+
+- [Quarantine File](https://github.com/g4bri-3l3/Crowdstrike-RTR-IR-Awesome-Scripts/blob/main/scripts/quarantine_file.ps1)
+A softer File Deleter: zips the file with its hash and metadata, checks the zip, then removes the original. The zip is not password-protected. Example: ".\quarantine_file.ps1 -Path "C:\Users\bob\evil.exe""
+
+- [Block Network Target](https://github.com/g4bri-3l3/Crowdstrike-RTR-IR-Awesome-Scripts/blob/main/scripts/block_network_target.ps1)
+Blocks an IP, CIDR or domain with Windows Firewall rules (`IRBlock_*`) when full host isolation is too much. Domains are resolved once, at run time. `-Remove` rolls back one target or all of them.
+Example usage: ".\block_network_target.ps1 -Target "203.0.113.7"" / ".\block_network_target.ps1 -Remove"
 
 # Suggested Usage
 
